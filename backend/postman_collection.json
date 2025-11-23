@@ -1,0 +1,452 @@
+{
+	"info": {
+		"name": "MCP Servers API",
+		"description": "API collection for MCP Servers, Categories, and Rules",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "MCP Servers",
+			"item": [
+				{
+					"name": "Get All MCP Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mcp-servers",
+							"host": ["{{baseUrl}}"],
+							"path": ["mcp-servers"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search MCP Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mcp-servers/search?q=openai",
+							"host": ["{{baseUrl}}"],
+							"path": ["mcp-servers", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "openai",
+									"description": "Search query"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All MCP Servers (with search query)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mcp-servers?q=openai",
+							"host": ["{{baseUrl}}"],
+							"path": ["mcp-servers"],
+							"query": [
+								{
+									"key": "q",
+									"value": "openai",
+									"description": "Search query"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get MCP Server by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mcp-servers/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["mcp-servers", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create MCP Server",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"OpenAI MCP Server\",\n  \"slug\": \"openai-mcp-server\",\n  \"classification\": \"AI Assistant\",\n  \"releaseDate\": \"2024-01-15\",\n  \"provider\": \"OpenAI\",\n  \"githubRepo\": \"https://github.com/openai/mcp-server\",\n  \"description\": \"A powerful MCP server for AI interactions\",\n  \"url\": \"https://mcp.openai.com\"\n}"
+						},
+						"options": {
+							"raw": {
+								"language": "json"
+							}
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update MCP Server",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Updated description for OpenAI MCP Server\"\n}"
+						},
+						"options": {
+							"raw": {
+								"language": "json"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/mcp-servers/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["mcp-servers", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete MCP Server",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/mcp-servers/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["mcp-servers", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/search?q=security",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "security",
+									"description": "Search query"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Categories (with search query)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories?q=security",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories"],
+							"query": [
+								{
+									"key": "q",
+									"value": "security",
+									"description": "Search query"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rules by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/1/rules",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "1", "rules"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Security Rules\",\n  \"slug\": \"security-rules\"\n}"
+						},
+						"options": {
+							"raw": {
+								"language": "json"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Security Rules\"\n}"
+						},
+						"options": {
+							"raw": {
+								"language": "json"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["categories", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rules",
+			"item": [
+				{
+					"name": "Get All Rules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rules",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Rules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rules/search?q=validate",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "validate",
+									"description": "Search query"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Rules (with search query)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rules?q=validate",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules"],
+							"query": [
+								{
+									"key": "q",
+									"value": "validate",
+									"description": "Search query"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rules by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rules/category/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules", "category", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rule by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rules/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"categoryId\": 1,\n  \"title\": \"Always validate user input\",\n  \"slug\": \"validate-user-input\",\n  \"url\": \"https://example.com/rules/validate-user-input\",\n  \"content\": \"Always validate and sanitize user input to prevent injection attacks and ensure data integrity.\",\n  \"contentPreview\": \"Validate user input to prevent attacks\"\n}"
+						},
+						"options": {
+							"raw": {
+								"language": "json"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rules",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Rule",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated: Always validate user input\"\n}"
+						},
+						"options": {
+							"raw": {
+								"language": "json"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/rules/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Rule",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/rules/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["rules", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
+

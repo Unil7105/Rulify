@@ -45,3 +45,5 @@ gemini-settings/
 # Other
 *.bak
 *.old
+*.mdc
+*.md
