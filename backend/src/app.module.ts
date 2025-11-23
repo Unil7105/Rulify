@@ -23,6 +23,7 @@ import { RulesModule } from './modules/rules/rules.module';
         username: configService.get('database.username'),
         password: configService.get('database.password'),
         database: configService.get('database.database'),
+        ssl: configService.get('database.ssl'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: process.env.NODE_ENV === 'development',
         logging: process.env.NODE_ENV === 'development',
