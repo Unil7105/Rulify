@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import AdToast from '@/components/AdToast';
+import RuleActions from '@/components/RuleActions';
 import { getRuleBySlug, getMcpServers } from '@/lib/api';
 import type { Rule } from '@/lib/api';
 
@@ -62,7 +63,8 @@ export default async function RuleDetailPage({ params }: RuleDetailPageProps) {
     displayTitle = firstLine.length > 100 ? firstLine.substring(0, 100) + '...' : firstLine;
   }
 
-  const mcpServers = await getMcpServers();
+  const mcpServersResponse = await getMcpServers(1, 12);
+  const mcpServers = mcpServersResponse.data;
 
   // Breadcrumb structured data
   const breadcrumbSchema = {
@@ -159,6 +161,9 @@ export default async function RuleDetailPage({ params }: RuleDetailPageProps) {
               </div>
             )}
           </header>
+
+          {/* Action Buttons */}
+          <RuleActions title={displayTitle} content={rule.content} slug={rule.slug} />
 
           {/* Rule Content Container */}
           <div className="bg-[#161616] border border-[#212121] rounded-lg p-8 shadow-lg shadow-black/20">

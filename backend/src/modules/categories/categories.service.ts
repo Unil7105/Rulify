@@ -23,6 +23,23 @@ export class CategoriesService {
     });
   }
 
+  async findAllPaginated(page: number = 1, limit: number = 5): Promise<{ data: Category[]; total: number; page: number; limit: number; totalPages: number }> {
+    const skip = (page - 1) * limit;
+    const [data, total] = await this.categoryRepository.findAndCount({
+      order: { createdAt: 'DESC' },
+      skip,
+      take: limit,
+    });
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
   async findOne(id: number): Promise<Category> {
     const category = await this.categoryRepository.findOne({
       where: { id },

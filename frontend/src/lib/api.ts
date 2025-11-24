@@ -45,6 +45,16 @@ export async function getCategories(): Promise<Category[]> {
   return res.json();
 }
 
+export async function getCategoriesPaginated(page: number = 1, limit: number = 5): Promise<PaginatedResponse<Category>> {
+  const res = await fetch(`${API_BASE_URL}/categories?page=${page}&limit=${limit}`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch categories');
+  }
+  return res.json();
+}
+
 export async function getCategoryBySlug(slug: string): Promise<Category | undefined> {
   const categories = await getCategories();
   return categories.find((cat) => cat.slug === slug);
@@ -60,8 +70,16 @@ export async function getRulesByCategory(categoryId: number): Promise<Rule[]> {
   return res.json();
 }
 
-export async function getMcpServers(): Promise<McpServer[]> {
-  const res = await fetch(`${API_BASE_URL}/mcp-servers`, {
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export async function getMcpServers(page: number = 1, limit: number = 12): Promise<PaginatedResponse<McpServer>> {
+  const res = await fetch(`${API_BASE_URL}/mcp-servers?page=${page}&limit=${limit}`, {
     cache: 'no-store',
   });
   if (!res.ok) {

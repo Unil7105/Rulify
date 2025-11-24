@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import McpServerCard from '@/components/McpServerCard';
 import AdToast from '@/components/AdToast';
+import McpUsageGuide from '@/components/McpUsageGuide';
 import { getMcpServerBySlug, getMcpServers } from '@/lib/api';
 import type { McpServer } from '@/lib/api';
 
@@ -55,15 +56,23 @@ export default async function McpServerDetailPage({ params }: McpServerDetailPag
     notFound();
   }
 
-  const allMcpServers = await getMcpServers();
+  // Fetch a larger set of servers to find related ones
+  let allMcpServers: McpServer[] = [];
+  try {
+    const allMcpServersResponse = await getMcpServers(1, 100);
+    allMcpServers = allMcpServersResponse?.data || [];
+  } catch (error) {
+    console.error('Failed to fetch MCP servers for related section:', error);
+    allMcpServers = [];
+  }
   
   // Get related servers (same classification or provider, excluding current)
   const relatedServers = allMcpServers
     .filter(
       (server) =>
-        server.id !== mcpServer.id &&
-        (server.classification === mcpServer.classification ||
-          server.provider === mcpServer.provider)
+        server?.id !== mcpServer.id &&
+        (server?.classification === mcpServer.classification ||
+          server?.provider === mcpServer.provider)
     )
     .slice(0, 6);
 
@@ -73,7 +82,7 @@ export default async function McpServerDetailPage({ params }: McpServerDetailPag
     '@type': 'SoftwareApplication',
     name: mcpServer.name,
     description: mcpServer.description || '',
-    url: mcpServer.url,
+    url: mcpServer.url || '',
     applicationCategory: mcpServer.classification || 'DeveloperApplication',
     provider: mcpServer.provider
       ? {
@@ -208,6 +217,11 @@ export default async function McpServerDetailPage({ params }: McpServerDetailPag
               )}
             </div>
           </header>
+
+          {/* MCP Usage Guide */}
+          <section className="mt-12">
+            <McpUsageGuide />
+          </section>
 
           {/* Related Servers Section */}
           {relatedServers.length > 0 && (

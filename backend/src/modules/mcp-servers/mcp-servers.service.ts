@@ -17,10 +17,21 @@ export class McpServersService {
     return await this.mcpServerRepository.save(mcpServer);
   }
 
-  async findAll(): Promise<McpServer[]> {
-    return await this.mcpServerRepository.find({
+  async findAll(page: number = 1, limit: number = 12): Promise<{ data: McpServer[]; total: number; page: number; limit: number; totalPages: number }> {
+    const skip = (page - 1) * limit;
+    const [data, total] = await this.mcpServerRepository.findAndCount({
       order: { createdAt: 'DESC' },
+      skip,
+      take: limit,
     });
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async findOne(id: number): Promise<McpServer> {

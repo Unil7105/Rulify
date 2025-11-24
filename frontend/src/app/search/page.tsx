@@ -49,7 +49,8 @@ export async function generateMetadata({ searchParams }: SearchPageProps): Promi
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q } = await searchParams;
   const query = q || '';
-  const mcpServers = await getMcpServers();
+  const mcpServersResponse = await getMcpServers(1, 12);
+  const mcpServers = mcpServersResponse.data;
 
   let rules: Rule[] = [];
   let hasSearched = false;

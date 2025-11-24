@@ -33,12 +33,20 @@ export class McpServersController {
   @Get()
   @ApiOperation({ summary: 'Get all MCP servers or search MCP servers' })
   @ApiQuery({ name: 'q', required: false, description: 'Search query' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number', type: Number })
+  @ApiQuery({ name: 'limit', required: false, description: 'Items per page', type: Number })
   @ApiResponse({ status: 200, description: 'List of MCP servers' })
-  findAll(@Query('q') query?: string) {
+  findAll(
+    @Query('q') query?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
     if (query) {
       return this.mcpServersService.search(query);
     }
-    return this.mcpServersService.findAll();
+    const pageNum = page ? parseInt(page, 10) : 1;
+    const limitNum = limit ? parseInt(limit, 10) : 12;
+    return this.mcpServersService.findAll(pageNum, limitNum);
   }
 
   @Get('search')

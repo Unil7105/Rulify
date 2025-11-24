@@ -47,7 +47,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
   const category = await getCategoryBySlug(slug);
-  const mcpServers = await getMcpServers();
+  const mcpServersResponse = await getMcpServers(1, 12);
+  const mcpServers = mcpServersResponse.data;
 
   if (!category) {
     notFound();

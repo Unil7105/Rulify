@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import SearchBar from '@/components/SearchBar';
-import McpServerCard from '@/components/McpServerCard';
+import McpServersList from '@/components/McpServersList';
 import AdToast from '@/components/AdToast';
 import { getMcpServers } from '@/lib/api';
 
@@ -26,7 +26,8 @@ export const metadata: Metadata = {
 };
 
 export default async function McpServersPage() {
-  const mcpServers = await getMcpServers();
+  const mcpServersResponse = await getMcpServers(1, 12);
+  const mcpServers = mcpServersResponse.data;
 
   // Structured data for SEO
   const structuredData = {
@@ -37,7 +38,7 @@ export default async function McpServersPage() {
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'}/mcps`,
     mainEntity: {
       '@type': 'ItemList',
-      numberOfItems: mcpServers.length,
+      numberOfItems: mcpServersResponse.total,
       itemListElement: mcpServers.map((server, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -80,18 +81,13 @@ export default async function McpServersPage() {
 
           {/* MCP Servers Grid */}
           {mcpServers.length > 0 ? (
-            <>
-              <div className="mb-6">
-                <p className="text-[#868686] text-sm">
-                  {mcpServers.length} {mcpServers.length === 1 ? 'server' : 'servers'} found
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mcpServers.map((server) => (
-                  <McpServerCard key={server.id} mcpServer={server} />
-                ))}
-              </div>
-            </>
+            <McpServersList
+              initialServers={mcpServers}
+              initialTotal={mcpServersResponse.total}
+              initialPage={mcpServersResponse.page}
+              initialLimit={mcpServersResponse.limit}
+              initialTotalPages={mcpServersResponse.totalPages}
+            />
           ) : (
             <div className="text-center py-20">
               <p className="text-[#C4C4C4] text-lg">No MCP servers found. Check back soon!</p>

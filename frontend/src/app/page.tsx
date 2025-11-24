@@ -1,23 +1,16 @@
 import Navbar from '@/components/Navbar';
 import Logo from '@/components/Logo';
 import SearchBar from '@/components/SearchBar';
-import CategorySection from '@/components/CategorySection';
+import CategoriesList from '@/components/CategoriesList';
 import AdToast from '@/components/AdToast';
-import { getCategories, getRulesByCategory, getMcpServers } from '@/lib/api';
-import type { Category } from '@/lib/api';
+import { getCategoriesPaginated, getMcpServers } from '@/lib/api';
 
 export default async function Home() {
-  // Fetch all data server-side
-  const categories = await getCategories();
-  const mcpServers = await getMcpServers();
-  
-  // Fetch rules for each category
-  const categoriesWithRules = await Promise.all(
-    categories.map(async (category: Category) => {
-      const rules = await getRulesByCategory(category.id);
-      return { category, rules };
-    })
-  );
+  // Fetch initial page of categories server-side
+  const categoriesResponse = await getCategoriesPaginated(1, 5);
+  const initialCategories = categoriesResponse.data;
+  const mcpServersResponse = await getMcpServers(1, 12);
+  const mcpServers = mcpServersResponse.data;
 
   // Structured data for SEO
   const structuredData = {
@@ -40,6 +33,10 @@ export default async function Home() {
           {/* Logo Section */}
           <div className="text-center mb-12">
             <Logo />
+            <p className="mt-4 text-[#C4C4C4] text-lg max-w-2xl mx-auto">
+              Discover and explore a comprehensive collection of Cursor rules and MCP servers. 
+              Browse organized categories, search for specific rules, and find the perfect development guidelines for your projects.
+            </p>
           </div>
 
           {/* Search Bar */}
@@ -47,23 +44,12 @@ export default async function Home() {
             <SearchBar />
           </div>
 
-          {/* Categories and Rules */}
-          <div className="space-y-16">
-            {categoriesWithRules.map(({ category, rules }) => (
-              <CategorySection
-                key={category.id}
-                category={category}
-                rules={rules}
-              />
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {categoriesWithRules.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-[#C4C4C4] text-lg">No categories found. Check back soon!</p>
-            </div>
-          )}
+          {/* Categories and Rules with Infinite Scroll */}
+          <CategoriesList
+            initialCategories={initialCategories}
+            initialPage={categoriesResponse.page}
+            initialLimit={categoriesResponse.limit}
+          />
         </div>
       </main>
 
